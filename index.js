@@ -5,9 +5,9 @@ async function run()
     var i = 1;
     for (i = 1 ; i < 100000; i++)
     {
-        request.post('http://wsserver.nps-osh-xmaster.iranet.net/api/sendtobank', {
+        request.post('http://localhost:3000/api/sendtobank', {
             json : {
-                bank : 'MELI',
+                bank : 'BSIR',
                 payload : 'message content : ' + i
             }
         }, callback);
@@ -17,13 +17,21 @@ async function run()
     }
 }
 
+let counter = 0;
+
 function callback(error, res, body)  {
+
+    counter++;
+
     if (error) {
       console.error(error)
       return
     }
-    console.log(`statusCode: ${res.statusCode}`)
-    console.log(body)
+    if (counter % 1000 == 0)
+    {
+        console.log(`${counter} : statusCode: ${res.statusCode}`)
+        console.log(body)
+    }
   }
 
   function sleep(ms){
